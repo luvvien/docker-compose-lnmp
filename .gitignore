@@ -1,5 +1,3 @@
-services/mysql/data/
-logs/
 .DS_Store
 */.DS_Store
 *.log

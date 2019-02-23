@@ -3,9 +3,9 @@ services:
   # mysql
   mysql:
     image: mysql:5.7.19
-    container_name: weengine-mysql
+    container_name: mysql
     ports:
-      - 3308:3306
+      - 3306:3306
     volumes:
       - ./services/mysql/data:/var/lib/mysql
       - ./services/mysql/config/mysql.conf.d/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
@@ -13,15 +13,15 @@ services:
       - ./services/mysql/run/mysqld:/var/run/mysqld
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: luvvien1314
-      MYSQL_DATABASE: weengine
-      MYSQL_USER: weengine
-      MYSQL_PASSWORD: luvvien1314@me
+      MYSQL_ROOT_PASSWORD: luvvien
+      MYSQL_DATABASE: luvvien
+      MYSQL_USER: luvvien
+      MYSQL_PASSWORD: luvvien
 
   # php-fpm
   php-fpm:
     image: luvvien/docker-php-fpm-composer:latest
-    container_name: weengine-php-fpm
+    container_name: php-fpm
     volumes:
       - ./apps:/apps
       - ./services/php/config/php.ini:/usr/local/etc/php/php.ini
@@ -33,10 +33,10 @@ services:
   # nginx
   nginx:
     image: nginx:latest
-    container_name: weengine-nginx
+    container_name: nginx
     ports:
-      - 8086:80
-      - 10443:443
+      - 80:80
+      - 443:443
     links:
       - mysql
     depends_on:
