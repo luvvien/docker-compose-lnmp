@@ -30,22 +30,37 @@ services:
     restart: always
     working_dir: /apps
 
+  # Redis 
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    container_name: redis
+    # environment:
+    #   REDIS_PASSWORD: "luvvien"
+    command: redis-server --requirepass luvvien
+    volumes:
+      - ./services/redis/data:/data
+    restart: always
+
   # nginx
   nginx:
-    image: nginx:latest
+    image: pagespeed/nginx-pagespeed
     container_name: nginx
     ports:
       - 80:80
       - 443:443
     links:
       - mysql
+      - nginx
     depends_on:
       - php-fpm
       - mysql
+      - redis
     volumes:
       - ./apps:/apps
-      - ./services/nginx/config/conf.d:/etc/nginx/conf.d:ro
-      - ./services/nginx/config/cert:/etc/nginx/cert:ro
+      - ./services/nginx/config/conf.d:/etc/nginx/conf.d
+      - ./services/nginx/config/cert:/etc/nginx/cert
       - ./services/nginx/config/nginx.conf:/etc/nginx/nginx.conf
       - ./logs/nginx:/var/log/nginx
     restart: always
